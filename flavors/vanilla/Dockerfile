@@ -12,6 +12,8 @@ ENV ENTRYPOINT_COMMAND="/usr/bin/tail -f /var/log/nginx/*.log"
 COPY ../../assets/scripts/docker-entrypoint.sh /entrypoints/2-nginx-entrypoint.sh
 RUN chmod +x /entrypoints/2-nginx-entrypoint.sh
 
+RUN apt-get update && apt-get upgrade -y
+
 #ensure php repo is up-to-date
 RUN for i in {1..10}; do \
       add-apt-repository -y ppa:ondrej/php && break || sleep 10; \
