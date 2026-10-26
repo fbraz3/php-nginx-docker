@@ -19,7 +19,7 @@ RUN for i in {1..10}; do \
       add-apt-repository -y ppa:ondrej/php && break || sleep 10; \
     done
 
-RUN /usr/bin/unattended-upgrades -v;
+RUN apt-get update && apt-get -yq dist-upgrade;
 
 RUN for i in {1..10}; do \
       apt-get install -fy nginx curl && break || sleep 10; \
