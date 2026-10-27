@@ -79,7 +79,14 @@ jobs:
           docker exec -i test php -m |grep -q phalcon || exit 1
           docker exec -i test ps faux |grep -q "nginx"  || exit 1
           docker exec -i test ps faux |grep -q "nginx: worker" || exit 1
-          curl http://127.0.0.1/ | grep -q "Hello World" || exit 1
+          for i in {1..30}; do
+            if curl -s http://127.0.0.1/ | grep -q "Hello World"; then
+              echo "Service is healthy!"
+              break
+            fi
+            sleep 2
+          done
+          curl http://127.0.0.1/ | grep -q "Hello World" || (docker exec -i test cat /var/log/php*fpm.log 2>/dev/null; exit 1)
           docker exec -i test monit summary || exit 1
           docker exec -i test ps faux
           docker stop test
@@ -110,7 +117,14 @@ jobs:
           sleep 60
           docker exec -i test php -m |grep -q phalcon || exit 1
           docker exec -i test ps faux |grep -q "nginx"  || exit 1
-          curl http://127.0.0.1/ | grep -q "Hello World" || exit 1
+          for i in {1..30}; do
+            if curl -s http://127.0.0.1/ | grep -q "Hello World"; then
+              echo "Service is healthy!"
+              break
+            fi
+            sleep 2
+          done
+          curl http://127.0.0.1/ | grep -q "Hello World" || (docker exec -i test cat /var/log/php*fpm.log 2>/dev/null; exit 1)
           docker exec -i test monit summary || exit 1
           docker exec -i test ps faux
           docker stop test

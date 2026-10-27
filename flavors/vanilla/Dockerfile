@@ -38,7 +38,8 @@ RUN chown -R www-data. /var/log/nginx; \
     chown -R www-data. /etc/nginx/sites-enabled/; \
     chown -R www-data. /etc/nginx/sites-available/; \
     touch /run/nginx.pid; \
-    chown www-data. /run/nginx.pid;
+    chown www-data. /run/nginx.pid; \
+    chown -R www-data. /var/run/php/ /run/php/ /var/log/php* /etc/php/$PHP_VERSION/fpm/ 2>/dev/null || true;
 
 WORKDIR /app
 
